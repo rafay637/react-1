@@ -2,137 +2,84 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  let a = 10;
-  let mobiles = [
-    {
-        name: "a30",
-        ram: "4gb",
-        rom: "64gb",
-        camera: "50px",
-        price: 2000,
-        brand: "samsung"
-    },
-    {
-        name: "note10",
-        ram: "6gb",
-        rom: "128gb",
-        camera: "50px",
-        price: 4000,
-        brand: "samsung"
-    },
-    {
-        name: "s10",
-        ram: "3gb",
-        rom: "128gb",
-        camera: "10px",
-        price: 5000,
-        brand: "samsung"
-    },
-    {
-        name: "iphone4",
-        ram: "4gb",
-        rom: "64gb",
-        camera: "50px",
-        price: 10000,
-        brand: "iphone"
-    },
-    {
-        name: "iphone4s",
-        ram: "4gb",
-        rom: "64gb",
-        camera: "50px",
-        price: 20000,
-        brand: "iphone"
-    },
-    {
-        name: "iphone5",
-        ram: "4gb",
-        rom: "64gb",
-        camera: "50px",
-        price: 30000,
-        brand: "iphone"
-    },
-    {
-        name: "iphone6",
-        ram: "4gb",
-        rom: "64gb",
-        camera: "50px",
-        price: 30000,
-        brand: "iphone"
-    },
-    {
-        name: "redminote10",
-        ram: "4gb",
-        rom: "64gb",
-        camera: "50px",
-        price: 10000,
-        brand: "xiaomi"
-    },
-    {
-        name: "redminote11",
-        ram: "4gb",
-        rom: "64gb",
-        camera: "50px",
-        price: 10000,
-        brand: "xiaomi"
-    },
-    {
-        name: "redmi10",
-        ram: "4gb",
-        rom: "64gb",
-        camera: "50px",
-        price: 10000,
-        brand: "xiaomi"
-    },
-    {
-        name: "redmi10pro",
-        ram: "4gb",
-        rom: "64gb",
-        camera: "50px",
-        price: 10000,
-        brand: "xiaomi"
-    },
-    {
-        name: "a3s",
-        ram: "4gb",
-        rom: "64gb",
-        camera: "50px",
-        price: 10000,
-        brand: "oppo"
-    },
-    {
-        name: "a4s",
-        ram: "6gb",
-        rom: "128gb",
-        camera: "50px",
-        price: 10000,
-        brand: "oppo"
-    },
-    {
-        name: "a5s",
-        ram: "2gb",
-        rom: "32gb",
-        camera: "50px",
-        price: 10000,
-        brand: "oppo"
-    },
-]; 
+
+  function add(e) {
+    e.preventDefault()
+    if (!text) {
+      alert("Please fill the Todo")
+    }
+    else {
+      list.push(text)
+      setList([...list])
+      // console.log(list)
+    }
+    setText("")
+  }
+
+  function click(i) {
+    let data = [...list]
+    data.splice(i, 1)
+    // console.log(i)
+    // console.log(data)
+    setList(data)
+  }
+
+  function deleteall() {
+    setList([])
+  }
+
+  function updated(index, newList) {
+    let arr = []
+    list.map((list, i) => {
+      // console.log(list);
+      if (index === i) {
+        arr.push(newList)
+      } else {
+        arr.push(list)
+      }
+    })
+    // console.log(newList)
+    // console.log(arr);
+    setList(arr)
+  }
+  
+  function cancel() {
+    setList(list)
+  }
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Hello React</h1>
-        {
-          mobiles.map((x, i) => {
-            return (
-              <div key={i} className="card">
-                <h3>{x.brand}</h3>
-                <p>{x.name}</p>
-                <p>Rs {x.price}/-</p>
+          <h1>Todo With React </h1>
+          <input type="text" value={text} placeholder='ENTER THE TODO' onChange={(e) => {
+            setText(e.target.value)
+          }} />
+          <button onClick={add} className="btn">Add</button>
+          <div className='main1'>
+            <div >{list.map((e, i) => {
+              return <div className='main2'>
+                <li key={i}>{e}</li>
+                <button dfval="delete" i={i} click={click} />
+                <button dfval="edit" i={i} edit={() => {
+                  setUpdate(true);
+                  setEditIndex(i);
+                }} />
+                <div>
+                  {update && editIndex === i ?
+                    <li><edit dtval="save" cancel={cancel}
+                      index={i}
+                      list={e}
+                      updated={updated} />
+                    </li>
+                    :
+                    null
+                  }
+                </div>
               </div>
-            )
-          })
-        }
+            })}
+            </div>
+          </div>
+          <button onClick={deleteall} className="btn2">DeleteAll</button>
       </header>
     </div>
   );
